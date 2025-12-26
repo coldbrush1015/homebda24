@@ -3,113 +3,575 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>데이터 사이언티스트/데이터 분석가 포트폴리오</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>데이터 사이언티스트 포트폴리오 — [성함]</title>
+
+  <!--
+    단일 파일 포트폴리오
+    - 작성자: 자동 생성
+    - 특징: 다크 테마, 미래 지향적, 미니멀, 데이터 비주얼리제이션 느낌
+    - 인터랙션: hover 카드 강조, 스크롤 기반 fade/slide-in, 숫자 카운트
+    - 유지보수: 섹션별 주석 포함
+  -->
+
+  <style>
+    /* ===========================
+       기본 변수 & 리셋
+       =========================== */
+    :root{
+      --bg:#070710;
+      --surface:#0f1724;
+      --muted:#9aa3b2;
+      --accent:#2be6ff;
+      --accent-2:#7c5cff;
+      --glass: rgba(255,255,255,0.04);
+      --card:#0b1220;
+      --radius:12px;
+      --maxw:1100px;
+      --ease:cubic-bezier(.2,.9,.25,1);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(124,92,255,0.07), transparent 8%),
+                  radial-gradient(900px 400px at 90% 90%, rgba(43,230,255,0.04), transparent 6%),
+                  var(--bg);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+    a{color:var(--accent); text-decoration:none}
+    .container{max-width:var(--maxw); margin:0 auto; padding:36px 24px}
+
+    /* ===========================
+       Header / Hero (첫 화면)
+       =========================== */
+    header.site-header{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .header-inner{display:flex; align-items:center; gap:16px; padding:14px 24px; max-width:var(--maxw); margin:0 auto}
+    .brand{
+      display:flex; gap:12px; align-items:center;
+    }
+    .logo{
+      width:48px; height:48px; border-radius:10px; display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 6px 24px rgba(124,92,255,0.12), inset 0 -6px 24px rgba(0,0,0,0.25);
+      flex-shrink:0;
+    }
+    .brand h1{font-size:15px; margin:0; letter-spacing:0.2px}
+    .brand p{margin:0; color:var(--muted); font-size:13px}
+
+    nav.top-nav{margin-left:auto; display:flex; gap:12px; align-items:center}
+    nav.top-nav a{padding:8px 10px; border-radius:8px; color:var(--muted); font-size:13px}
+    nav.top-nav a:hover{color:#fff; background:rgba(255,255,255,0.02)}
+
+    /* hero */
+    .hero{
+      padding:64px 24px; display:grid; grid-template-columns: 1fr 360px; gap:28px; align-items:center;
+      min-height:72vh;
+    }
+    .hero-left h2{font-size:28px; margin:0 0 12px 0; letter-spacing:-0.3px}
+    .role{display:inline-block; color:var(--accent); font-weight:600; margin-top:6px}
+    .hero-lead{color:var(--muted); margin:12px 0 18px 0; max-width:70%}
+    .kpis{display:flex; gap:14px; margin-top:18px; flex-wrap:wrap}
+    .kpi{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:10px; padding:12px 14px; min-width:130px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+    }
+    .kpi .num{font-size:20px; font-weight:700; color:var(--accent)}
+    .kpi .label{font-size:12px; color:var(--muted); margin-top:4px}
+
+    /* hero-right: visual / mini viz */
+    .viz-card{
+      background:linear-gradient(180deg, rgba(124,92,255,0.06), rgba(43,230,255,0.02));
+      border-radius:14px; padding:18px; height:100%; display:flex; flex-direction:column; gap:12px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .sparkline{width:100%; height:90px; display:block}
+    .viz-meta{display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:13px}
+
+    /* ===========================
+       섹션 공통 스타일
+       =========================== */
+    section{padding:64px 0; border-top:1px solid rgba(255,255,255,0.02)}
+    section h3{margin:0 0 18px 0; font-size:18px}
+    .section-inner{display:grid; gap:18px}
+
+    /* ===========================
+       About
+       =========================== */
+    .about{grid-template-columns:1fr; gap:18px}
+    .about-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);
+      color:var(--muted)
+    }
+
+    /* ===========================
+       Skills & Stack
+       =========================== */
+    .skills-grid{display:flex; gap:12px; flex-wrap:wrap}
+    .skill-pill{
+      background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+      padding:10px 14px; border-radius:999px; color:var(--muted); font-weight:600; font-size:13px;
+      border:1px solid rgba(255,255,255,0.02)
+    }
+
+    /* ===========================
+       Projects - 카드 레이아웃
+       =========================== */
+    .projects-grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:18px;
+    }
+    .project-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px; padding:18px; position:relative; overflow:hidden; border:1px solid rgba(255,255,255,0.03);
+      transition: transform 280ms var(--ease), box-shadow 280ms var(--ease);
+      display:flex; flex-direction:column; gap:10px;
+    }
+    /* hover: 카드 강조 효과 */
+    .project-card:hover{ transform:translateY(-8px) rotate(-0.2deg); box-shadow: 0 20px 50px rgba(7,8,20,0.6); }
+    .project-top{display:flex; justify-content:space-between; align-items:start; gap:12px}
+    .project-title{font-size:15px; margin:0}
+    .project-desc{color:var(--muted); font-size:13px; margin:0}
+    .project-meta{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .chip{background:rgba(255,255,255,0.02); padding:6px 8px; border-radius:8px; font-size:12px; color:var(--muted); border:1px solid rgba(255,255,255,0.02)}
+
+    /* 프로젝트 카드 내 요약(문제/접근/결과) 표시 */
+    .project-list{margin:8px 0 0 0; padding-left:16px; color:var(--muted); font-size:13px}
+
+    /* ===========================
+       Experience / Education
+       =========================== */
+    .timeline{display:flex; flex-direction:column; gap:12px}
+    .timeline-item{background:var(--card); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.03)}
+    .muted{color:var(--muted)}
+
+    /* ===========================
+       Contact
+       =========================== */
+    .contact-grid{display:flex; gap:18px; flex-wrap:wrap; align-items:center}
+    .contact-card{padding:14px 16px; border-radius:10px; background:rgba(255,255,255,0.02); display:flex; gap:10px; align-items:center}
+    .contact-card a{color:#fff; font-weight:600; font-size:14px}
+
+    /* ===========================
+       스크롤 애니메이션 (초기 상태)
+       =========================== */
+    .reveal{opacity:0; transform:translateY(12px); transition:opacity 600ms var(--ease), transform 600ms var(--ease)}
+    .reveal.revealed{opacity:1; transform:translateY(0)}
+
+    /* ===========================
+       반응형
+       =========================== */
+    @media(max-width:980px){
+      .hero{grid-template-columns:1fr; padding:48px 16px}
+      .projects-grid{grid-template-columns:1fr}
+      .hero-lead{max-width:100%}
+    }
+    @media(max-width:560px){
+      .header-inner{padding:10px 12px}
+      .brand h1{font-size:13px}
+      .hero-left h2{font-size:20px}
+    }
+
+    /* ===========================
+       미세 인터랙션: 배경 SVG 라인 (CSS로 투명도 제어)
+       =========================== */
+    .bg-lines{position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.12}
+    .sr-only{position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden}
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand">
-        <div class="avatar" aria-hidden="true">
-          <!-- simple SVG avatar -->
-          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="4" fill="#2B2F77"/>
-            <circle cx="12" cy="9" r="3.2" fill="#fff"/>
-            <path d="M6 19c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- SVG 기반 미세 인터랙션: 그리드/라인(데이터 느낌) -->
+  <svg class="bg-lines" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="g1" x1="0" x2="1">
+        <stop offset="0" stop-color="#2be6ff" stop-opacity="0.12" />
+        <stop offset="1" stop-color="#7c5cff" stop-opacity="0.08" />
+      </linearGradient>
+    </defs>
+    <!-- 대각선 라인 -->
+    <g stroke="url(#g1)" stroke-width="1" stroke-linecap="round">
+      <line x1="0" y1="20" x2="100%" y2="140" opacity="0.06"></line>
+      <line x1="0" y1="140" x2="100%" y2="260" opacity="0.04"></line>
+      <!-- 점진적 원형 라디얼 -->
+      <circle cx="92%" cy="12%" r="160" fill="none" stroke="url(#g1)" opacity="0.02"></circle>
+    </g>
+  </svg>
+
+  <!-- ===========================
+       헤더
+       =========================== -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="brand" aria-label="브랜드">
+        <div class="logo" aria-hidden="true">
+          <!-- 간단한 데이터 아이콘 -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="7" width="4" height="10" rx="1.2" fill="#041023" stroke="#ffffff40"></rect>
+            <rect x="10" y="4" width="4" height="13" rx="1.2" fill="#041023" stroke="#ffffff40"></rect>
+            <rect x="17" y="10" width="4" height="7" rx="1.2" fill="#041023" stroke="#ffffff40"></rect>
           </svg>
         </div>
         <div>
-          <h1 class="name">[성함] — 데이터 사이언티스트</h1>
-          <p class="tagline">데이터 속에서 비즈니스 성장의 기회를 찾습니다.</p>
+          <h1>[성함]</h1>
+          <p class="muted">데이터 사이언티스트 · 데이터 분석가</p>
         </div>
       </div>
-      <nav class="main-nav" id="nav">
-        <a href="#about">소개</a>
-        <a href="#skills">기술</a>
-        <a href="#projects">프로젝트</a>
-        <a href="#contact">연락</a>
+
+      <nav class="top-nav" role="navigation" aria-label="페이지 내비게이션">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#exp">Experience</a>
+        <a href="#contact">Contact</a>
       </nav>
-      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">☰</button>
     </div>
   </header>
 
+  <!-- ===========================
+       Hero Section (1)
+       - 이름, 직무, 핵심 한 줄 소개
+       - KPI 숫자 카운트 포함
+       =========================== -->
   <main>
-    <section id="about" class="hero">
-      <div class="container">
-        <h2>안녕하세요 — 데이터 분석가 [성함]입니다.</h2>
-        <p class="lead">복잡한 데이터를 정제하여 의사결정에 필요한 핵심 인사이트로 변환하는 과정을 즐깁니다.</p>
-        <p>저는 EDA, 고객 세분화, 대시보드 제작, A/B 테스트를 통해 비즈니스에 직접 연결되는 분석 결과를 도출합니다.</p>
-        <div class="cta-row">
-          <a class="btn" href="#projects">프로젝트 보기</a>
-          <a class="btn ghost" href="#contact">연락하기</a>
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-left reveal">
+        <h2 id="hero-title">안녕하세요, 저는 데이터로 가치를 만드는 <span class="role">데이터 사이언티스트</span>입니다.</h2>
+        <p class="hero-lead">복잡한 데이터를 간결한 인사이트로 변환해 비즈니스 의사결정을 돕습니다. 분석 → 가설 → 검증 → 시각화까지 데이터 파이프라인 전반을 설계/구현합니다.</p>
+
+        <!-- KPI 블록: 숫자 애니메이션 적용 -->
+        <div class="kpis">
+          <div class="kpi">
+            <div class="num" data-target="100000">0</div>
+            <div class="label">로그/레코드 분석</div>
+          </div>
+          <div class="kpi">
+            <div class="num" data-target="4">0</div>
+            <div class="label">주요 군집 수 (K-Means)</div>
+          </div>
+          <div class="kpi">
+            <div class="num" data-target="15">0</div>
+            <div class="label">예상 재구매율 상승(%)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 우측 미니 비주얼라이제이션(스파크라인 + 메타) -->
+      <aside class="viz-card reveal" aria-hidden="true">
+        <!-- SVG 스파크라인: CSS 애니메이션으로 채움 -->
+        <svg class="sparkline" viewBox="0 0 200 90" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="fill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#2be6ff" stop-opacity="0.28"/>
+              <stop offset="1" stop-color="#7c5cff" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="stroke" x1="0" x2="1">
+              <stop offset="0" stop-color="#2be6ff"/>
+              <stop offset="1" stop-color="#7c5cff"/>
+            </linearGradient>
+          </defs>
+          <path id="spark" d="M0,70 C30,45 60,50 90,32 C120,10 150,30 180,22 L200,20" fill="none" stroke="url(#stroke)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M0,70 C30,45 60,50 90,32 C120,10 150,30 180,22 L200,20 L200,90 L0,90 Z" fill="url(#fill)" opacity="0.85"></path>
+        </svg>
+        <div class="viz-meta">
+          <div>
+            <div style="font-weight:700; font-size:15px">Customer Activity</div>
+            <div class="muted" style="font-size:13px">최근 30일 기준 트래픽/구매 흐름</div>
+          </div>
+          <div class="muted" style="font-size:13px">가설 → 실험 → 배포</div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ===========================
+         About Me (2)
+         - 데이터 분석가로서의 관점과 강점
+         =========================== -->
+    <section id="about" class="container reveal" aria-labelledby="about-title">
+      <h3 id="about-title">About Me</h3>
+      <div class="section-inner about">
+        <div class="about-card">
+          <!-- 명확한 관점과 강점 나열 -->
+          <p><strong>데이터로 문제를 정의하고, 실행 가능한 솔루션을 제시합니다.</strong></p>
+          <p class="muted">
+            저는 데이터를 '증거'로 보고, 비즈니스 의사결정에서 '불확실성'을 줄이는 것을 목표로 합니다.
+            탐색적 데이터 분석(EDA)을 통해 핵심 가설을 도출하고 검증 가능한 실험 설계(A/B 테스트),
+            세분화(클러스터링)를 통해 타겟 마케팅 전략을 제안합니다.
+          </p>
+
+          <ul style="margin-top:10px; color:var(--muted); font-size:14px; padding-left:18px">
+            <li>실무 중심의 분석: 비즈니스 임팩트에 초점</li>
+            <li>재현 가능한 분석 파이프라인: SQL → Python(Notebook) → Dashboard</li>
+            <li>시각화로 스토리 전달: Tableau / Matplotlib / Seaborn 활용</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <section id="skills" class="section">
-      <div class="container">
-        <h3>🛠 Tech Stack</h3>
-        <ul class="skills-list">
-          <li><strong>Languages:</strong> Python (Pandas, scikit-learn, Matplotlib), SQL</li>
-          <li><strong>Tools:</strong> Tableau, Excel (Advanced), Git/GitHub</li>
-          <li><strong>Focus:</strong> EDA, Customer Segmentation, Dashboarding, A/B Testing</li>
-        </ul>
+    <!-- ===========================
+         Skills & Stack (3)
+         - 기술 스택 요약
+         =========================== -->
+    <section id="skills" class="container reveal" aria-labelledby="skills-title">
+      <h3 id="skills-title">Skills & Stack</h3>
+      <div class="section-inner">
+        <div class="skills-grid">
+          <!-- 각 기술은 유지보수가 쉽도록 HTML로 명시 -->
+          <span class="skill-pill">Python (Pandas, scikit-learn)</span>
+          <span class="skill-pill">SQL (Postgres / MySQL)</span>
+          <span class="skill-pill">Tableau</span>
+          <span class="skill-pill">Excel (Advanced)</span>
+          <span class="skill-pill">Statistics / A/B Testing</span>
+          <span class="skill-pill">Data Visualization</span>
+          <span class="skill-pill">ETL / Data Cleaning</span>
+          <span class="skill-pill">Git / 협업</span>
+        </div>
+
+        <p class="muted" style="margin-top:12px">핵심역량: EDA · 고객 세분화 · 대시보드 설계 · 실험 설계 및 분석</p>
       </div>
     </section>
 
-    <section id="projects" class="section">
-      <div class="container">
-        <h3>🚀 Featured Project</h3>
+    <!-- ===========================
+         Projects (4)
+         - 3~5개 프로젝트 카드
+         - 각 카드에 문제 / 접근 / 결과 / 사용 기술 요약
+         =========================== -->
+    <section id="projects" class="container reveal" aria-labelledby="projects-title">
+      <h3 id="projects-title">Featured Projects</h3>
+      <div class="projects-grid">
+        <!-- Project 1 (README 기반 주요 프로젝트) -->
         <article class="project-card">
-          <div class="project-header">
-            <h4>이커머스 고객 이탈 방지 및 타겟 마케팅 분석</h4>
-            <p class="muted">데이터를 통해 이탈 위험 고객군을 식별하고, 맞춤형 프로모션 전략을 제안한 프로젝트</p>
+          <div class="project-top">
+            <div>
+              <h4 class="project-title">이커머스 고객 이탈 방지 및 타겟 마케팅 분석</h4>
+              <p class="project-desc muted">RFM 분석 및 클러스터링을 통한 재구매 유도 전략</p>
+            </div>
+            <div class="chip">Production-ready</div>
           </div>
-          <ul class="project-highlights">
-            <li><strong>SQL:</strong> 10만 건 이상의 구매 로그에서 RFM 지표 추출</li>
-            <li><strong>Python:</strong> K-Means로 4개 고객 군집 정의 및 특성 분석</li>
-            <li><strong>Visualization:</strong> Tableau 기반 고객 행동 분석 대시보드 제작</li>
-            <li><strong>Result:</strong> 프로모션 적용 시 재구매율 15% 상승 예상</li>
+          <ul class="project-list">
+            <li><strong>문제:</strong> 이탈 위험 고객 식별 및 낮은 재구매율 개선</li>
+            <li><strong>접근:</strong> SQL로 RFM 지표 추출 → Python(K-Means)으로 군집화 → Tableau로 대시보드 제공</li>
+            <li><strong>결과:</strong> 프로모션 적용 시 재구매율 +15% 시나리오 도출</li>
+            <li><strong>기술:</strong> SQL, Pandas, scikit-learn, Tableau</li>
           </ul>
-          <div class="project-links">
-            <a class="link" href="project-report.md">분석 리포트</a>
-            <a class="link" href="notebooks/analysis.ipynb">Python 코드(노트북)</a>
-            <a class="link" href="https://public.tableau.com/">Tableau 대시보드</a>
-            <button class="btn small" id="openDetails">자세히 보기</button>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project-card">
+          <div class="project-top">
+            <div>
+              <h4 class="project-title">A/B 테스트 기반 추천 로직 개선</h4>
+              <p class="project-desc muted">추천 알고리즘 변경 시 전환율 평가</p>
+            </div>
+            <div class="chip">Experiment</div>
           </div>
+          <ul class="project-list">
+            <li><strong>문제:</strong> 추천 항목 변경 후 전환율 측정 필요</li>
+            <li><strong>접근:</strong> 랜덤 분배, 지표 설계(CTR, CVR), 통계적 유의 검정</li>
+            <li><strong>결과:</strong> 새로운 로직에서 유의미한 전환율 개선 확인</li>
+            <li><strong>기술:</strong> Python, Statsmodels, SQL</li>
+          </ul>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project-card">
+          <div class="project-top">
+            <div>
+              <h4 class="project-title">고객 세그먼트 기반 타겟 캠페인</h4>
+              <p class="project-desc muted">군집별 행동 특성에 따른 캠페인 설계</p>
+            </div>
+            <div class="chip">Dashboard</div>
+          </div>
+          <ul class="project-list">
+            <li><strong>문제:</strong> 모든 고객에 동일 프로모션으로 인한 비용 비효율</li>
+            <li><strong>접근:</strong> 사용자 행동 분석 → 세그먼트별 가치 모델링 → 캠페인 우선순위화</li>
+            <li><strong>결과:</strong> 캠페인 ROI 향상, 타겟팅 정확도 증가</li>
+            <li><strong>기술:</strong> Pandas, K-Means, Tableau</li>
+          </ul>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="project-card">
+          <div class="project-top">
+            <div>
+              <h4 class="project-title">데이터 품질 대시보드 구축</h4>
+              <p class="project-desc muted">ETL 파이프라인의 결측/이상 탐지 시각화</p>
+            </div>
+            <div class="chip">Engineering</div>
+          </div>
+          <ul class="project-list">
+            <li><strong>문제:</strong> 데이터 파이프라인에서의 결측 및 이상 감지 부족</li>
+            <li><strong>접근:</strong> 자동화된 검사 스크립트 및 대시보드 알림 설계</li>
+            <li><strong>결과:</strong> 이슈 감지 시간 단축, 데이터 신뢰도 향상</li>
+            <li><strong>기술:</strong> Python, Cron/ETL, Dashboard</li>
+          </ul>
         </article>
       </div>
     </section>
 
-    <section id="contact" class="section">
-      <div class="container">
-        <h3>📬 Contact</h3>
-        <p>이메일: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-        <p>LinkedIn / Blog: <a href="#">링크 넣기</a></p>
+    <!-- ===========================
+         Experience / Education (5)
+         =========================== -->
+    <section id="exp" class="container reveal" aria-labelledby="exp-title">
+      <h3 id="exp-title">Experience & Education</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <strong>데이터 사이언티스트 — [회사명]</strong>
+          <div class="muted" style="font-size:13px">2023 — Present</div>
+          <p class="muted" style="margin-top:8px; font-size:14px">고객 행동 분석, 리텐션 모델링, 대시보드 운영 및 실험 설계 담당.</p>
+        </div>
+
+        <div class="timeline-item">
+          <strong>데이터 분석가(인턴) — [회사명]</strong>
+          <div class="muted" style="font-size:13px">2021 — 2022</div>
+          <p class="muted" style="margin-top:8px; font-size:14px">ETL 파이프라인 개선 및 KPI 모니터링 자동화</p>
+        </div>
+
+        <div class="timeline-item">
+          <strong>학력</strong>
+          <div class="muted" style="font-size:13px">학사 — 통계학 / 컴퓨터 관련 전공</div>
+        </div>
       </div>
     </section>
+
+    <!-- ===========================
+         Contact (6)
+         - Email, GitHub, LinkedIn
+         =========================== -->
+    <section id="contact" class="container reveal" aria-labelledby="contact-title">
+      <h3 id="contact-title">Contact</h3>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <!-- 이메일 주소는 편집 가능 -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 6.5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-11z" stroke="#ffffff55" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 7.5l8 5 8-5" stroke="#ffffff55" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <a href="mailto:your.email@example.com">your.email@example.com</a>
+        </div>
+
+        <div class="contact-card">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.477 2 12a9.99 9.99 0 0 0 7 9.545V15.4H7.5v-3H9V10c0-1.5.9-2.3 2.2-2.3.64 0 1.3.12 1.3.12v1.4h-.72c-.71 0-.93.44-.93.89v1.07h1.58l-.25 3H11v6.145A10 10 0 0 0 22 12c0-5.523-4.477-10-10-10z" fill="#ffffff55"></path>
+          </svg>
+          <a href="https://github.com/your-gh" target="_blank" rel="noopener">GitHub</a>
+        </div>
+
+        <div class="contact-card">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4.98 3.5a2.5 2.5 0 1 0 0 5H5a2.5 2.5 0 0 0 0-5zM3 10h4v11H3zM14 10c-1.657 0-3 1.343-3 3v8h4v-7c0-1.1.9-2 2-2s2 .9 2 2v7h4v-8c0-3.866-3.134-7-7-7z" fill="#ffffff55"></path>
+          </svg>
+          <a href="https://linkedin.com/in/your-linkedin" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer class="container" style="padding:24px 24px 60px 24px; color:var(--muted); font-size:13px">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap">
+        <div>© <strong>[성함]</strong> — Data Scientist · Data Analyst</div>
+        <div class="muted">Built as a static, single-page portfolio</div>
+      </div>
+    </footer>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <small>© 2025 [성함]. Built as a static portfolio.</small>
-    </div>
-  </footer>
+  <!-- 스크립트: 스크롤 애니메이션, 숫자 카운트, 간단한 미세 인터랙션 -->
+  <script>
+    // ----------------------------
+    // Helper: Intersection Observer for reveal-on-scroll
+    // ----------------------------
+    (function(){
+      const opts = { root: null, rootMargin: '0px 0px -6% 0px', threshold: 0.06 };
+      const observer = new IntersectionObserver((entries, o)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add('revealed');
+            o.unobserve(e.target);
+          }
+        });
+      }, opts);
 
-  <!-- project modal -->
-  <div id="modal" class="modal" aria-hidden="true">
-    <div class="modal-inner">
-      <button class="modal-close" id="modalClose" aria-label="닫기">✕</button>
-      <h4>프로젝트 상세</h4>
-      <p>이 프로젝트는 고객 RFM 분석과 클러스터링을 통해 고객군을 식별하고, 마케팅 팀과 협업하여 대시보드를 설계했습니다. 리포트와 노트북에서 상세한 코드와 분석 결과를 확인하세요.</p>
-      <ul>
-        <li>데이터 전처리: 결측값 처리, 파생변수 생성, 세션/주문 정규화</li>
-        <li>모델링: K-Means + 실루엣 검증, 군집별 행동 기반 타깃팅 전략 제안</li>
-        <li>배포: Tableau로 대시보드 공유, 마케팅팀 교육 자료 제공</li>
-      </ul>
-    </div>
-  </div>
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    })();
 
-  <script src="script.js"></script>
+    // ----------------------------
+    // 숫자 카운트 애니메이션 (정수 및 천 단위 콤마 포맷)
+    // - data-target 속성에서 목표값 읽음
+    // - 한 번만 실행
+    // ----------------------------
+    (function(){
+      const format = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      const counters = Array.from(document.querySelectorAll('.num[data-target]'));
+      if(!counters.length) return;
+
+      let started = false;
+      const run = () => {
+        if(started) return;
+        started = true;
+        counters.forEach(el=>{
+          const to = parseInt(el.getAttribute('data-target'), 10) || 0;
+          const duration = 1500;
+          const start = performance.now();
+          const from = 0;
+          const step = (now) => {
+            const t = Math.min(1, (now - start)/duration);
+            const eased = t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; // quick easing
+            const val = Math.floor(from + (to - from) * eased);
+            el.textContent = format(val);
+            if(t < 1) requestAnimationFrame(step);
+            else el.textContent = (to >= 1000) ? format(to) : String(to);
+          };
+          requestAnimationFrame(step);
+        });
+      };
+
+      // 트리거: hero 섹션이 보일 때
+      const hero = document.querySelector('.hero-left');
+      if(hero){
+        const io = new IntersectionObserver((entries, o)=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting){ run(); o.disconnect(); }
+          });
+        }, {threshold:0.35});
+        io.observe(hero);
+      } else run();
+    })();
+
+    // ----------------------------
+    // Sparkline Path 애니메이션 (SVG stroke-dashoffset)
+    // ----------------------------
+    (function(){
+      const path = document.getElementById('spark');
+      if(!path) return;
+      const len = path.getTotalLength();
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+      path.style.transition = 'stroke-dashoffset 1.6s ease-out';
+      // 시작 타이밍: 약간 지연 후 실행
+      setTimeout(()=> path.style.strokeDashoffset = '0', 500);
+    })();
+
+    // ----------------------------
+    // 키보드 접근성: 링크 키 이동(기본 동작 유지)
+    // ----------------------------
+    (function(){
+      // 모든 a 요소에 focus 스타일을 위한 처리 (브라우저 기본 focus 보완)
+      document.querySelectorAll('a, button').forEach(el=>{
+        el.addEventListener('focus', ()=> el.style.outline = '2px solid rgba(43,230,255,0.18)');
+        el.addEventListener('blur', ()=> el.style.outline = '');
+      });
+    })();
+  </script>
 </body>
 </html>
