@@ -1,0 +1,55 @@
+:root{
+  --bg:#fcfcff; --muted:#6b7280; --accent:#2B2F77; --card:#ffffff; --glass: rgba(43,47,119,0.06);
+  --maxw:1024px; --radius:10px;
+}
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; color:#0f1724; background:var(--bg); -webkit-font-smoothing:antialiased}
+.container{max-width:var(--maxw); margin:0 auto; padding:28px}
+.site-header{background:linear-gradient(90deg,#fff 0%, #fbfbff 100%); position:sticky; top:0; z-index:40; border-bottom:1px solid #eee}
+.header-inner{display:flex; align-items:center; gap:18px}
+.brand{display:flex; align-items:center; gap:12px}
+.avatar{width:56px; height:56px; flex:0 0 56px}
+.name{font-size:1rem; margin:0}
+.tagline{margin:0; color:var(--muted); font-size:0.9rem}
+.main-nav{margin-left:auto; display:flex; gap:12px}
+.main-nav a{color:var(--muted); text-decoration:none; padding:10px 8px; border-radius:8px}
+.main-nav a:hover{background:var(--glass); color:var(--accent)}
+.nav-toggle{display:none; background:transparent; border:0; font-size:20px}
+
+.hero{padding:48px 0; background:linear-gradient(180deg, rgba(43,47,119,0.04), transparent)}
+.lead{font-size:1.05rem; color:var(--muted)}
+.cta-row{margin-top:18px; display:flex; gap:12px}
+.btn{background:var(--accent); color:#fff; padding:10px 14px; border-radius:8px; text-decoration:none}
+.btn.ghost{background:transparent; border:1px solid #ddd; color:var(--accent)}
+.btn.small{padding:6px 8px; font-size:0.9rem}
+
+.section{padding:36px 0}
+.skills-list{list-style:none; padding:0; margin:12px 0 0 0; display:grid; gap:8px}
+.project-card{background:var(--card); border-radius:var(--radius); padding:18px; box-shadow:0 6px 18px rgba(15,23,36,0.06)}
+.project-header h4{margin:0}
+.muted{color:var(--muted); margin-top:6px}
+.project-highlights{margin:12px 0 0 0; padding-left:18px}
+.project-links{display:flex; gap:10px; margin-top:14px; align-items:center}
+.link{color:var(--accent); text-decoration:underline}
+
+.site-footer{border-top:1px solid #f0f0f6; padding:18px 0; text-align:center; color:var(--muted)}
+
+/* modal */
+.modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(10,12,20,0.4); z-index:60}
+.modal[aria-hidden="false"]{display:flex}
+.modal-inner{background:#fff; padding:20px; border-radius:12px; width:min(720px,calc(100% - 48px)); box-shadow:0 10px 40px rgba(2,6,23,0.2)}
+.modal-close{float:right; background:transparent; border:0; font-size:18px}
+
+/* responsive */
+@media(max-width:800px){
+  .main-nav{display:none}
+  .nav-toggle{display:block; margin-left:auto}
+  .header-inner{gap:10px}
+  .container{padding:18px}
+}
+
+@media(max-width:520px){
+  .name{font-size:0.95rem}
+  .lead{font-size:0.98rem}
+  .project-links{flex-direction:column; align-items:flex-start}
+}

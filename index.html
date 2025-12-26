@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>데이터 사이언티스트/데이터 분석가 포트폴리오</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="avatar" aria-hidden="true">
+          <!-- simple SVG avatar -->
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#2B2F77"/>
+            <circle cx="12" cy="9" r="3.2" fill="#fff"/>
+            <path d="M6 19c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="name">[성함] — 데이터 사이언티스트</h1>
+          <p class="tagline">데이터 속에서 비즈니스 성장의 기회를 찾습니다.</p>
+        </div>
+      </div>
+      <nav class="main-nav" id="nav">
+        <a href="#about">소개</a>
+        <a href="#skills">기술</a>
+        <a href="#projects">프로젝트</a>
+        <a href="#contact">연락</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="hero">
+      <div class="container">
+        <h2>안녕하세요 — 데이터 분석가 [성함]입니다.</h2>
+        <p class="lead">복잡한 데이터를 정제하여 의사결정에 필요한 핵심 인사이트로 변환하는 과정을 즐깁니다.</p>
+        <p>저는 EDA, 고객 세분화, 대시보드 제작, A/B 테스트를 통해 비즈니스에 직접 연결되는 분석 결과를 도출합니다.</p>
+        <div class="cta-row">
+          <a class="btn" href="#projects">프로젝트 보기</a>
+          <a class="btn ghost" href="#contact">연락하기</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="container">
+        <h3>🛠 Tech Stack</h3>
+        <ul class="skills-list">
+          <li><strong>Languages:</strong> Python (Pandas, scikit-learn, Matplotlib), SQL</li>
+          <li><strong>Tools:</strong> Tableau, Excel (Advanced), Git/GitHub</li>
+          <li><strong>Focus:</strong> EDA, Customer Segmentation, Dashboarding, A/B Testing</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="container">
+        <h3>🚀 Featured Project</h3>
+        <article class="project-card">
+          <div class="project-header">
+            <h4>이커머스 고객 이탈 방지 및 타겟 마케팅 분석</h4>
+            <p class="muted">데이터를 통해 이탈 위험 고객군을 식별하고, 맞춤형 프로모션 전략을 제안한 프로젝트</p>
+          </div>
+          <ul class="project-highlights">
+            <li><strong>SQL:</strong> 10만 건 이상의 구매 로그에서 RFM 지표 추출</li>
+            <li><strong>Python:</strong> K-Means로 4개 고객 군집 정의 및 특성 분석</li>
+            <li><strong>Visualization:</strong> Tableau 기반 고객 행동 분석 대시보드 제작</li>
+            <li><strong>Result:</strong> 프로모션 적용 시 재구매율 15% 상승 예상</li>
+          </ul>
+          <div class="project-links">
+            <a class="link" href="project-report.md">분석 리포트</a>
+            <a class="link" href="notebooks/analysis.ipynb">Python 코드(노트북)</a>
+            <a class="link" href="https://public.tableau.com/">Tableau 대시보드</a>
+            <button class="btn small" id="openDetails">자세히 보기</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <h3>📬 Contact</h3>
+        <p>이메일: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
+        <p>LinkedIn / Blog: <a href="#">링크 넣기</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© 2025 [성함]. Built as a static portfolio.</small>
+    </div>
+  </footer>
+
+  <!-- project modal -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <button class="modal-close" id="modalClose" aria-label="닫기">✕</button>
+      <h4>프로젝트 상세</h4>
+      <p>이 프로젝트는 고객 RFM 분석과 클러스터링을 통해 고객군을 식별하고, 마케팅 팀과 협업하여 대시보드를 설계했습니다. 리포트와 노트북에서 상세한 코드와 분석 결과를 확인하세요.</p>
+      <ul>
+        <li>데이터 전처리: 결측값 처리, 파생변수 생성, 세션/주문 정규화</li>
+        <li>모델링: K-Means + 실루엣 검증, 군집별 행동 기반 타깃팅 전략 제안</li>
+        <li>배포: Tableau로 대시보드 공유, 마케팅팀 교육 자료 제공</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
